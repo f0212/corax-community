@@ -193,7 +193,15 @@ _detect_os() {
             brew install "${pkgs[@]}"
         fi
         ;;
+    arch)
+        command -v curl >/dev/null || pkgs+=(curl)
+        if [[ "${#pkgs[*]}" -ne 0 ]]; then
+            $use_sudo pacman -Sy --noconfirm "${pkgs[@]}" >/dev/null
+        fi
+    ;;
+
     *)
+    
         echo "Looks like you aren't running this installer on a Debian, Ubuntu, Fedora, CentOS, Amazon Linux 2 or Arch Linux system"
         _msg error "Unsupported. exit."
         exit 1
